@@ -17,6 +17,20 @@ function App() {
     fetchNotes();
   }, []);
 
+  const handleDelete = (id) => {
+    fetch(`http://localhost:3001/api/notes/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (res.ok) {
+          fetchNotes();
+        } else {
+          console.error("Error al eliminar la nota");
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div
       className="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden"
@@ -111,6 +125,13 @@ function App() {
                     style={{ backgroundImage: 'url("undefined")' }}
                   ></div>
                   <img alt="Image" className="invisible absolute size-0" />
+                  <button
+                    className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f1f2f4] text-[#121416] text-sm font-bold leading-normal tracking-[0.015em] ml-4 hover:bg-red-100"
+                    onClick={() => handleDelete(note._id)}
+                    title="Eliminar nota"
+                  >
+                    Eliminar
+                  </button>
                 </div>
               </div>
             ))}
