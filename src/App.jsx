@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import Modal from "./Modal/Modal.jsx";
 
 function App() {
   const [notes, setNotes] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
+  const fetchNotes = () => {
     fetch("http://localhost:3001/api/notes")
       .then((res) => res.json())
       .then((data) => setNotes(data))
       .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    fetchNotes();
   }, []);
 
   return (
@@ -42,7 +48,10 @@ function App() {
               <p className="text-[#121416] text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">
                 Mis notas
               </p>
-              <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f1f2f4] text-[#121416] text-sm font-bold leading-normal tracking-[0.015em]">
+              <button
+                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f1f2f4] text-[#121416] text-sm font-bold leading-normal tracking-[0.015em]"
+                onClick={() => setShowModal(true)}
+              >
                 <span className="truncate">Nueva nota</span>
               </button>
             </div>
@@ -108,6 +117,13 @@ function App() {
           </div>
         </div>
       </div>
+      {/* 4. Mostrar el modal si showModal es true */}
+      {showModal && (
+        <Modal
+          onClose={() => setShowModal(false)}
+          onNoteCreated={fetchNotes}
+        />
+      )}
     </div>
   );
 }
