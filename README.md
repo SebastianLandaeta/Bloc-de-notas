@@ -1,12 +1,14 @@
-# React + Vite
+# Bloc de notas DailyFocus
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bloc de notas hecho con React, Tailwind CSS, Express y MongoDB
 
-Currently, two official plugins are available:
+## Instalación
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Importar el repositorio.
+- Ejecutar en una terminal *npm run dev* y en otra *node api.cjs*
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Uso de la IA para este proyecto
+Se utilizaron dos herramientas:
+- Stitch: Permite crear diseños por medio de promps y te da tanto el Figma y como el código HTML de los mismos.
+- Copilot en GitHub Desktop: Permite generar los commit messages de forma automática.
+  
