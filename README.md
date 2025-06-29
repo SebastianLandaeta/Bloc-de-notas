@@ -12,3 +12,5 @@ Se utilizaron dos herramientas:
 - Stitch: Permite crear diseños por medio de promps y te da tanto el Figma y como el código HTML de los mismos.
 - Copilot en GitHub Desktop: Permite generar los commit messages de forma automática.
   
+## Base de datos
+Está hecha en MongoDB y los elementos de la colección tienen los campos *title* y *description*
