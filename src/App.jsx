@@ -117,12 +117,9 @@ function App() {
           </div>
         </div>
       </div>
-      {/* 4. Mostrar el modal si showModal es true */}
+      {/* Mostrar el modal si showModal es true */}
       {showModal && (
-        <Modal
-          onClose={() => setShowModal(false)}
-          onNoteCreated={fetchNotes}
-        />
+        <Modal onClose={() => setShowModal(false)} onNoteCreated={fetchNotes} />
       )}
     </div>
   );
