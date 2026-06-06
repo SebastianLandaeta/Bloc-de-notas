@@ -31,11 +31,14 @@ app.post("/api/notes", async (req, res) => {
   try {
     await client.connect();
     const { title, description } = req.body;
-    const result = await client
-      .db("DailyFocus")
-      .collection("Note")
-      .insertOne({ title, description });
-    res.status(201).json(result.ops?.[0] || { title, description });
+    const collection = client.db("DailyFocus").collection("Note");
+    const result = await collection.insertOne({
+      title,
+      description,
+      createdAt: new Date(),
+    });
+    const inserted = await collection.findOne({ _id: result.insertedId });
+    res.status(201).json(inserted);
   } catch (e) {
     res.status(500).json({ error: e.message });
   } finally {

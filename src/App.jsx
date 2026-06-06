@@ -5,6 +5,8 @@ import Modal from "./Modal/Modal.jsx";
 function App() {
   const [notes, setNotes] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [sortBy, setSortBy] = useState("date");
+  const [sortOrder, setSortOrder] = useState("desc");
 
   const fetchNotes = () => {
     fetch("http://localhost:3001/api/notes")
@@ -16,6 +18,26 @@ function App() {
   useEffect(() => {
     fetchNotes();
   }, []);
+
+  const getSortedNotes = () => {
+    const copied = [...notes];
+    if (sortBy === "date") {
+      copied.sort((a, b) => {
+        const ad = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const bd = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+        return sortOrder === "desc" ? bd - ad : ad - bd;
+      });
+    } else {
+      copied.sort((a, b) => {
+        const at = (a.title || "").toLowerCase();
+        const bt = (b.title || "").toLowerCase();
+        if (at < bt) return sortOrder === "asc" ? -1 : 1;
+        if (at > bt) return sortOrder === "asc" ? 1 : -1;
+        return 0;
+      });
+    }
+    return copied;
+  };
 
   const handleDelete = (id) => {
     fetch(`http://localhost:3001/api/notes/${id}`, {
@@ -97,19 +119,35 @@ function App() {
               </label>
             </div>
             <div className="flex gap-3 p-3 flex-wrap pr-4">
-              <div className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#f1f2f4] pl-4 pr-4">
-                <p className="text-[#121416] text-sm font-medium leading-normal">
-                  Ordenar por: Fecha
-                </p>
-              </div>
-              <div className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#f1f2f4] pl-4 pr-4">
-                <p className="text-[#121416] text-sm font-medium leading-normal">
-                  Ordenar por: Título
-                </p>
-              </div>
+              <button
+                className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#f1f2f4] pl-4 pr-4 text-[#121416] text-sm font-medium"
+                onClick={() => {
+                  if (sortBy === "date") setSortOrder((s) => (s === "desc" ? "asc" : "desc"));
+                  else {
+                    setSortBy("date");
+                    setSortOrder("desc");
+                  }
+                }}
+                title="Alternar orden por fecha"
+              >
+                Ordenar por: Fecha ({sortBy === "date" ? (sortOrder === "desc" ? "Más reciente" : "Más antiguo") : "Más reciente"})
+              </button>
+              <button
+                className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#f1f2f4] pl-4 pr-4 text-[#121416] text-sm font-medium"
+                onClick={() => {
+                  if (sortBy === "title") setSortOrder((s) => (s === "asc" ? "desc" : "asc"));
+                  else {
+                    setSortBy("title");
+                    setSortOrder("asc");
+                  }
+                }}
+                title="Alternar orden por título"
+              >
+                Ordenar por: Título ({sortBy === "title" ? (sortOrder === "asc" ? "A → Z" : "Z → A") : "A → Z"})
+              </button>
             </div>
             {/* Aquí mostramos las notas obtenidas de la API */}
-            {notes.map((note) => (
+            {getSortedNotes().map((note) => (
               <div className="p-4" key={note._id}>
                 <div className="flex items-stretch justify-between gap-4 rounded-xl">
                   <div className="flex flex-col gap-1 flex-[2_2_0px]">
@@ -118,6 +156,9 @@ function App() {
                     </p>
                     <p className="text-[#6a7581] text-sm font-normal leading-normal">
                       {note.description}
+                    </p>
+                    <p className="text-[#6a7581] text-xs font-normal leading-normal">
+                      {note.createdAt ? new Date(note.createdAt).toLocaleString() : ""}
                     </p>
                   </div>
                   <div
