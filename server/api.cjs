@@ -9,6 +9,7 @@ app.use(express.json());
 
 const PORT = 3001;
 
+// Endpoint para obtener todas las notas
 app.get("/api/notes", async (req, res) => {
   const client = new MongoClient(process.env.ATLAS_URI);
   try {
@@ -26,6 +27,7 @@ app.get("/api/notes", async (req, res) => {
   }
 });
 
+// Endpoint para crear una nueva nota
 app.post("/api/notes", async (req, res) => {
   const client = new MongoClient(process.env.ATLAS_URI);
   try {
@@ -33,9 +35,9 @@ app.post("/api/notes", async (req, res) => {
     const { title, description } = req.body;
     const collection = client.db("DailyFocus").collection("Note");
     const result = await collection.insertOne({
-      title,
-      description,
-      createdAt: new Date(),
+      title, // Título de la nota
+      description, // Descripción de la nota
+      createdAt: new Date(), // Fecha de creación
     });
     const inserted = await collection.findOne({ _id: result.insertedId });
     res.status(201).json(inserted);
@@ -46,6 +48,7 @@ app.post("/api/notes", async (req, res) => {
   }
 });
 
+// Endpoint para eliminar una nota por ID
 app.delete("/api/notes/:id", async (req, res) => {
   const client = new MongoClient(process.env.ATLAS_URI);
   try {

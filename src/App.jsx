@@ -5,6 +5,7 @@ import Modal from "./Modal/Modal.jsx";
 function App() {
   const [notes, setNotes] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("date");
   const [sortOrder, setSortOrder] = useState("desc");
 
@@ -20,7 +21,12 @@ function App() {
   }, []);
 
   const getSortedNotes = () => {
-    const copied = [...notes];
+    const filtered = notes.filter((note) => {
+      const title = (note.title || "").toLowerCase();
+      return title.includes(searchQuery.trim().toLowerCase());
+    });
+
+    const copied = [...filtered];
     if (sortBy === "date") {
       copied.sort((a, b) => {
         const ad = a.createdAt ? new Date(a.createdAt).getTime() : 0;
@@ -113,7 +119,8 @@ function App() {
                   <input
                     placeholder="Buscar notas"
                     className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#121416] focus:outline-0 focus:ring-0 border-none bg-[#f1f2f4] focus:border-none h-full placeholder:text-[#6a7581] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
-                    value=""
+                    value={searchQuery}
+                    onChange={(event) => setSearchQuery(event.target.value)}
                   />
                 </div>
               </label>
