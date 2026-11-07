@@ -228,7 +228,7 @@ function App() {
                   onClick={handleCreateNote}
                 >
                   <Icon name="plus" size={17} />
-                  Crear mi primera nota
+                  Crear nueva nota
                 </button>
               )}
             </div>
