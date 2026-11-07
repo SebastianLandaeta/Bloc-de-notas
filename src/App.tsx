@@ -93,7 +93,7 @@ function App() {
       <header className="topbar">
         <a
           className="brand"
-          href="/"
+          href={import.meta.env.BASE_URL}
           aria-label="Notas — inicio"
           onClick={(event) => {
             event.preventDefault()
