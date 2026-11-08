@@ -39,8 +39,8 @@ const iconContent: Record<IconName, ReactNode> = {
   ),
   notebook: (
     <>
-      <path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H20v18H7.5A2.5 2.5 0 0 1 5 17.5z" />
-      <path d="M5 5h15M5 19h15M8 9h8M8 13h6M3 6v.01M3 10v.01M3 14v.01M3 18v.01" />
+      <rect x="4" y="3" width="16" height="18" rx="2" />
+      <path d="M9 3v18M12 8h5M12 12h5M12 16h5" />
     </>
   ),
   plus: <path d="M12 5v14M5 12h14" />,
